@@ -20,7 +20,11 @@ def translate(infile, outfile, type="mixed"):
     translator = PSEUDO_TYPE_CLASSES[type]("po")
 
     for entry in po:
-        entry.msgstr = translator.compile(entry.msgid)
+        if entry.msgid_plural:
+            entry.msgstr_plural = {0: translator.compile(entry.msgid),
+                                   1: translator.compile(entry.msgid_plural)}
+        else:
+            entry.msgstr = translator.compile(entry.msgid)
 
     os.makedirs(os.path.dirname(os.path.abspath(outfile)))
     po.save(outfile)
