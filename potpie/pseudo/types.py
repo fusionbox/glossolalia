@@ -12,7 +12,7 @@ class BracketsPseudoType(PseudoTypeMixin):
     def _po(self, string):
         """
         Custom pseudo method for PO based resources.
-        
+
         Translations must begin and end with \n if the msgid does so.
         """
         return self._skip_char_around(string, char='\n')
@@ -20,7 +20,7 @@ class BracketsPseudoType(PseudoTypeMixin):
     def _properties(self, string):
         """
         Custom pseudo method for PROPERTIES based resources.
-        
+
         Translations with " (quote) around it should be kept like that.
         """
         #FIXME: It might not be really needed for java .properties files.
@@ -39,7 +39,7 @@ class UnicodePseudoType(PseudoTypeMixin):
     Pseudo type for converting all chars of a string into unicode chars that
     look alike.
     """
-    
+
     UNICODE_MAP = u"ȦƁƇḒḖƑƓĦĪĴĶĿḾȠǾƤɊŘŞŦŬṼẆẊẎẐ" + u"[\\]^_`" + \
         u"ȧƀƈḓḗƒɠħīĵķŀḿƞǿƥɋřşŧŭṽẇẋẏẑ"
 
@@ -64,12 +64,12 @@ class PLanguagePseudoType(PseudoTypeMixin):
     """
     Pseudo type for increasing the length of a string by around 30-50%
     replacing the vowels with unicode chars that look alike.
-    
+
     This pseudo type is based on a P-language, which is a simple
     vowel-extending language. Examples:
     - "hello" becomes "héPéllôPô": hé + Pé + llô +Pô
     - "because" becomes "béPécåüPåüséPé": bé + Pé + cåü + Påü + sé + Pé
-    
+
     Reference:
     http://src.chromium.org/viewvc/chrome/trunk/src/tools/grit/grit/pseudo.py
     """
@@ -93,7 +93,7 @@ class PLanguagePseudoType(PseudoTypeMixin):
     u'Y': u'\u00dd',  # Y acute
     }
     # Matches vowels and P
-    _PSUB_RE = re.compile("(%s)" % '|'.join(_VOWELS.keys() + ['P']))
+    _PSUB_RE = re.compile("(%s)" % '|'.join(list(_VOWELS.keys()) + ['P']))
 
     @classmethod
     def Repl(cls, match):
@@ -170,21 +170,21 @@ class ExtendPseudoType(BracketsPseudoType):
     def create_extented_text(self, string):
 
         size = len(string)
-        
+
         # Strings bigger then 50 chars should be increased by 20%. The others
         # should use an equation, so smaller strings can be increased more.
         if size > 49:
             n = int(size * 0.2)
         else:
             n = int(((size * (6.8 / (size / 3 + 1) ** 1.13 + 1)) - size))
-        
+
         # FIXME: Count [, ] and whitespace ahead of time, because it's gonna
         # be used in the MixedPseudoTypes class.
         n -= 3
         chars_lenght = len(self.chars) - 1
         # Get list of chars to append from the string itself
         chars_list = list(string[:n].strip())
-        
+
         # If `'I'[:7]` it will return only one char, then we need to append
         # 6 more.
         if len(chars_list) > n:
@@ -197,7 +197,7 @@ class ExtendPseudoType(BracketsPseudoType):
             if chars_list[k] == ' ':
                 continue
             chars_list[k] = self.chars[random.randint(0, chars_lenght)]
-        
+
         return u''.join(chars_list)
 
     def _base_compile(self, string):
@@ -207,12 +207,12 @@ class ExtendPseudoType(BracketsPseudoType):
 class MixedPseudoTypes(ExtendPseudoType, UnicodePseudoType, BracketsPseudoType):
     """
     Pseudo type which combines three other pseudo types.
-    
+
     Types:
         ExtendPseudoType
         UnicodePseudoType
         BracketsPseudoType
-        
+
     Refer to theirs docstrings for more info.
     """
 
