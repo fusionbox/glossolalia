@@ -55,7 +55,7 @@ class UnicodePseudoType(PseudoTypeMixin):
             return char
 
     @SplitterDecorators([TagSplitter, HTMLSpecialEntitiesSplitter,
-        PrintfSplitter, EscapedCharsSplitter])
+        BraceFormatSplitter, PrintfSplitter, EscapedCharsSplitter])
     def _base_compile(self, string):
         return "".join(map(self._transpose, string))
 
@@ -116,7 +116,7 @@ class PLanguagePseudoType(PseudoTypeMixin):
         return cls._PSUB_RE.sub(cls.Repl, string)
 
     @SplitterDecorators([TagSplitter, HTMLSpecialEntitiesSplitter,
-        PrintfSplitter, EscapedCharsSplitter])
+        BraceFormatSplitter, PrintfSplitter, EscapedCharsSplitter])
     def _base_compile(self, string):
         outstr = u''
         ix = 0

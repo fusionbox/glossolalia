@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+from string import Formatter
 
 from polib import unescape
 
@@ -180,3 +181,28 @@ class HTMLSpecialEntitiesSplitter(BaseSplitter):
     Splits the string on HTML special entities, such as &lt;, &amp;, etc.
     """
     REGEX = r'&[a-zA-Z]+;'
+
+
+class BraceFormatSplitter(BaseSplitter):
+    """
+    Splits new-style Python format strings, like {foo}, {}, and {0!r:{1}}.
+    """
+    def __call__(self, func):
+        def _wrapped(pseudo_type, string, **kwargs):
+            text = []
+            formatter = Formatter()
+            for (literal_text, field_name, format_spec, conversion) in formatter.parse(string):
+                if literal_text:
+                    literal_text = next_splitter_or_func(
+                        literal_text, self.splitters, func, pseudo_type)
+                    literal_text = literal_text.replace('{', '{{').replace('}', '}}')
+                    text.append(literal_text)
+                if field_name is not None:
+                    fmt = field_name
+                    if conversion is not None:
+                        fmt += '!' + conversion
+                    if format_spec:
+                        fmt += ':' + format_spec
+                    text.append('{%s}' % (fmt, ))
+            return "".join(text)
+        return _wrapped
