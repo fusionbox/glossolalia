@@ -22,7 +22,6 @@ def translate(infile, outfile, type="mixed"):
     for entry in po:
         entry.msgstr = translator.compile(entry.msgid)
 
-    os.makedirs(os.path.dirname(os.path.abspath(outfile)))
     po.save(outfile)
 
 
