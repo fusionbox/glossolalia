@@ -28,12 +28,12 @@ def translate(infile, outfile, type="mixed"):
 def main():
     parser = argparse.ArgumentParser(description="Create pseudo translation files.")
     parser.add_argument("infile", metavar="infile", help="the path to the source file")
-    parser.add_argument("outfile", metavar="outfile", help="the path to save the psuedo translation to")
+    parser.add_argument("outfile", metavar="outfile", help="The path to save the psuedo translation to. Defaults to infile.", nargs='?')
     parser.add_argument("--type", dest="type", default="mixed", choices=PSEUDO_TYPE_CLASSES.keys(), help="The type of psuedo translation")
 
     args = parser.parse_args()
 
-    translate(args.infile, args.outfile, type=args.type)
+    translate(args.infile, args.outfile or args.infile, type=args.type)
 
 if __name__ == "__main__":
     main()
