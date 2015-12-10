@@ -17,6 +17,12 @@ PSEUDO_TYPE_CLASSES = {
 def translate(infile, outfile, type="mixed"):
     po = polib.pofile(infile)
 
+    # Our fake language doesn't have any special plural forms, so remove
+    # the placeholder.
+    if po.metadata.get('Plural-Forms') == 'nplurals=INTEGER; plural=EXPRESSION;':
+        del po.metadata['Plural-Forms']
+
+
     translator = PSEUDO_TYPE_CLASSES[type]("po")
 
     for entry in po:
