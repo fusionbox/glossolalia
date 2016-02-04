@@ -25,8 +25,12 @@ def translate(infile, outfile, type="mixed"):
     translator = PSEUDO_TYPE_CLASSES[type]("po")
 
     for entry in po:
-        if not entry.msgstr:
-            entry.msgstr = translator.compile(entry.msgid)
+        if entry.msgid_plural:
+                entry.msgstr_plural = {0: entry.msgstr_plural[0] or translator.compile(entry.msgid),
+                                       1: entry.msgstr_plural[1] or translator.compile(entry.msgid_plural)}
+        else:
+            if not entry.msgstr:
+                entry.msgstr = translator.compile(entry.msgid)
 
     po.save(outfile)
 
