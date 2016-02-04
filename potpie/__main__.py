@@ -22,11 +22,11 @@ def translate(infile, outfile, type="mixed"):
     if po.metadata.get('Plural-Forms') == 'nplurals=INTEGER; plural=EXPRESSION;':
         del po.metadata['Plural-Forms']
 
-
     translator = PSEUDO_TYPE_CLASSES[type]("po")
 
     for entry in po:
-        entry.msgstr = translator.compile(entry.msgid)
+        if not entry.msgstr:
+            entry.msgstr = translator.compile(entry.msgid)
 
     po.save(outfile)
 
