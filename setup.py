@@ -3,18 +3,18 @@
 
 from setuptools import setup, find_packages
 
-import potpie
+import glossolalia
 
 install_requires = [
     "polib",
 ]
 
 setup(
-    name="potpie",
-    version=potpie.__version__,
-    author="Donald Stufft",
-    author_email="donald.stufft@gmail.com",
-    url="https://github.com/dstufft/potpie",
+    name="glossolalia",
+    version=glossolalia.__version__,
+    author="Fusionbox",
+    author_email="programmers@fusionbox.com",
+    url="https://github.com/fusionbox/glossolalia",
     description="Translation Utility to Create Pseudo Translations of PO Files",
     long_description=open('README.rst').read(),
     license=open("LICENSE").read(),
@@ -25,7 +25,7 @@ setup(
     include_package_data=True,
     entry_points={
         "console_scripts": [
-            "potpie = potpie.__main__:main",
+            "glossolalia = glossolalia.__main__:main",
         ],
     },
     classifiers=[

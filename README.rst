@@ -1,10 +1,13 @@
-Potpie: Pseudo Po Translations
-==============================
+glossolalia: Pseudo Po Translations
+===================================
 
 
-Potpie is a GPL Licensed cli wrapper around the Psuedo Translations available
-from Transifex_ pseudo translations. The available types are ``brackets``,
-``unicode``, ``planguage``, ``extend``, and ``mixed``.
+glossolalia is a GPL Licensed cli wrapper around the Psuedo Translations
+available from Transifex_ pseudo translations. The available types are
+``brackets``, ``unicode``, ``planguage``, ``extend``, and ``mixed``.
+
+glossolalia is a fork of `potpie <https://github.com/dstufft/potpie>`_, which is
+unmaintained.
 
 
 Installation
@@ -12,11 +15,11 @@ Installation
 
 To install requests, simply: ::
 
-    $ pip install potpie
+    $ pip install glossolalia
 
 Or, if you absolutely must: ::
 
-    $ easy_install potpie
+    $ easy_install glossolalia
 
 But, you really shouldn't do that.
 
@@ -26,16 +29,16 @@ Usage
 
 To create a pseudo translated po file, simply: ::
 
-    $ potpie [--type] infile outfile
+    $ glossolalia [--type] infile outfile
 
 An example for a Django project might be: ::
 
-    $ potpie locale/en/LC_MESSAGES/django.po locale/xx_pseudo/LC_MESSAGES/django.po
+    $ glossolalia locale/en/LC_MESSAGES/django.po locale/xx_pseudo/LC_MESSAGES/django.po
 
 The default type is mixed, if you wish to use another type simplify specify it
 as an option like: ::
 
-    $ potpie --type brackets locale/en/LC_MESSAGES/django.po locale/xx_pseudo/LC_MESSAGES/django.po
+    $ glossolalia --type brackets locale/en/LC_MESSAGES/django.po locale/xx_pseudo/LC_MESSAGES/django.po
 
 
 Types
